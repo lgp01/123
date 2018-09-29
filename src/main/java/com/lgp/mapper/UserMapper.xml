@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lgp.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.lgp.domain.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, password, email, flag, sex
+  </sql>
+  <select id="selectByName" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where username=#{name} or email=#{name}
+  </select>
+
+  <insert id="insert" parameterType="com.lgp.domain.User">
+    insert into user (id, username, password, 
+      email, flag, 
+      sex)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER}, 
+      #{sex,jdbcType=CHAR})
+  </insert>
+
+  <update id="updatePassword" >
+    update user set password=#{pass} where id = #{id}
+  </update>
+
+  <select id="selectByUserName" resultType="Integer">
+    select id from user where username=#{username}
+  </select>
+  <select id="selectByEmail" resultType="Integer">
+    select id from user where emil=#{emil}
+  </select>
+</mapper>
